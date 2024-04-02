@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SCP - Bom Tapete</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Abel&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+    </style>
+  </head>
+
+  <body>
+
+    <section class="cabecalho">
+      <article>
+        <header class="titulo">
+          <h1>Sistema de controle de produtos</h1>
+        </header>
+      </article>
+    </section>
+
+    <a href="remove">Ir para a pagina de deletar</a>
+    <a href="relatorio">Gerar relatorio</a>
+
+    <div class="container">
+      <section class="inserir">
+        <h2 id="tituloCod">Insira o Código do produto</h2>
+        <form action="save" method="POST" id="formCod">
+          <input
+            type="text"
+            id="inputCod"
+            name="codigo"
+            placeholder="Insira o código do produto"
+          />
+          <input type="submit" value="Enviar" />
+        </form>
+      </section>
+
+      <div class="tables">
+        <!-- Tabela para status "A" -->
+        <section class="tabelaDs">
+          <table id="tableDs">
+            <thead>
+              <h1>DOCA SUJA</h1>
+              <tr>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="DOCA SUJA" ) { %>
+              <tr class="dadosTab">
+                <td id="dadoDs"><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tabelaLav">
+          <!-- Tabela para status "B" -->
+          <table>
+            <h1>LAVADO</h1>
+            <thead>
+              <tr>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="LAVADO" ) { %>
+              <tr class="dadosTab">
+                <td id="dadoLavado"><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tabelaPr">
+          <!-- Tabela para status "C" -->
+          <table>
+            <h1>PRONTO</h1>
+            <thead>
+              <tr>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="PRONTO" ) { %>
+              <tr class="dadosTab">
+                <td id="dadoPronto"><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

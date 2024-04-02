@@ -1,0 +1,143 @@
+:root {
+    --fonte-padrao: "Lato", sans-serif;
+}
+
+.main{
+    margin-left: 2em;
+}
+
+h1{
+    font-family: var(--fonte-padrao);
+}
+
+body {
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+.cabecalho {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 20px 0;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
+    font-family: var(--fonte-padrao);
+    font-weight: 700;
+    font-style: normal;
+    color: white;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.inserir,
+.deletar {
+    margin: 2em;
+}
+
+#formCod,
+#formDel {
+    width: 20em;
+}
+
+#inputCod,
+#inputStatus {
+    margin-right: 5px;
+}
+
+#tituloCod,
+#tituloDel {
+    margin-bottom: 10px;
+}
+
+#tituloCod,
+#tituloDel {
+    font-family: var(--fonte-padrao);
+    font-weight: 400;
+    font-style: normal;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.tabelaDs {
+    text-align: center;
+}
+
+.tables {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tables>section {
+    margin: 1em;
+    margin-right: 4em;
+}
+
+.tables>section>h1 {
+    text-align: center;
+    font-family: var(--fonte-padrao);
+}
+
+th,
+td {
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+input[type="submit"] {
+    background-color: #4c8bf0;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+input[type="submit"]:hover {
+    background-color: #2e72e0;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td:hover,
+th:hover {
+    background-color: #ddd;
+}

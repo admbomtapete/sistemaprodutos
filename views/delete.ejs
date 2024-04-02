@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excluir dados</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Abel&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+    </style>
+  </head>
+
+  <body>
+    <div class="cabecalho">
+      <section>
+        <header class="titulo">
+          <h1>Sistema de controle de produtos - Apagar dados</h1>
+        </header>
+      </section>
+    </div>
+
+    <a href="/">Ir para a página principal</a>
+    <a href="relatorio">Gerar relatorio</a>
+
+    <div class="container">
+      <section class="deletar">
+        <h2 id="tituloDel">Excluir</h2>
+        <form action="delete" method="POST" id="formDel">
+          <input
+            type="text"
+            name="id"
+            placeholder="Insira o ID a ser excluido"
+          />
+          <input type="submit" value="Excluir" />
+        </form>
+      </section>
+
+      <div class="tables">
+        <section class="tabelaDs">
+          <table>
+            <thead>
+              <h1>DOCA SUJA</h1>
+              <tr>
+                <th>ID</th>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="DOCA SUJA" ) { %>
+              <tr class="dadosTab">
+                <td><%= result[i]._id %></td>
+                <td><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tabelaLav">
+          <table>
+            <h1>LAVADO</h1>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="LAVADO" ) { %>
+              <tr class="dadosTab">
+                <td><%= result[i]._id %></td>
+                <td><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tabelaPr">
+          <table>
+            <h1>PRONTO</h1>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Código</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i=0; i < result.length; i++) { %> <% if
+              (result[i].status==="PRONTO" ) { %>
+              <tr class="dadosTab">
+                <td><%= result[i]._id %></td>
+                <td><%= result[i].codigo %></td>
+              </tr>
+              <% } %> <% } %>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+    </div>
+
+    <script>
+
+      document
+        .getElementById("generateReportBtn")
+        .addEventListener("click", async function () {
+          const date = new Date().toISOString().split("T")[0]; // Obtém a data atual no formato YYYY-MM-DD
+          const url = `/report?date=${date}`;
+          const report = await fetch(url).then((response) => response.json());
+          displayReport(report);
+        });
+
+      function displayReport(report) {
+        const container = document.getElementById("reportContainer");
+        container.innerHTML = `
+              <h2>Relatório do Dia: ${report.date}</h2>
+              <h3>Produtos que Entraram:</h3>
+              <ul>
+                  ${report.productsEntered
+                    .map((product) => `<li>${product.codigo}</li>`)
+                    .join("")}
+              </ul>
+              <h3>Produtos que Saíram:</h3>
+              <ul>
+                  ${report.productsExited
+                    .map((product) => `<li>${product.codigo}</li>`)
+                    .join("")}
+              </ul>
+          `;
+      }
+    </script>
+  </body>
+</html>

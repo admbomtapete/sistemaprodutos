@@ -1,0 +1,145 @@
+<!-- HTML da página onde você seleciona a data -->
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerar Relatório</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/relatorio.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Abel&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+    </style>
+  </head>
+  <body>
+    <section class="cabecalho">
+      <article>
+        <header class="titulo">
+          <h1>Sistema de controle de produtos - Gerar Relatórios</h1>
+        </header>
+      </article>
+    </section>
+
+    <div class="main">
+      <a href="remove">Ir para a pagina de deletar</a>
+      <a href="/">Ir para a página principal</a>
+
+      <h1>Gerar relatório - Entradas e Saídas</h1>
+      <label for="date">Selecione uma data:</label>
+      <input type="date" id="date" />
+      <button onclick="searchProducts()">Buscar</button>
+
+      <button onclick="printTable()">Imprimir</button>
+
+      <br>
+
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Status</th>
+            <th>Data de Criação</th>
+            <th>Última Atualização</th>
+          </tr>
+        </thead>
+        <tbody id="productBody">
+          <!-- Os resultados serão exibidos aqui -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      async function searchProducts() {
+        const date = document.getElementById("date").value;
+        const response = await fetch(`/products?date=${date}`);
+        const products = await response.json();
+
+        const productBody = document.getElementById("productBody");
+        productBody.innerHTML = "";
+
+        const options = {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "America/Sao_Paulo", // Fuso horário do Brasil (Brasília)
+        };
+
+        products.forEach((product) => {
+          const row = document.createElement("tr");
+          const createdAt = new Date(product.createdAt).toLocaleString(
+            "pt-BR",
+            options
+          );
+          const updatedAt = product.updatedAt
+            ? new Date(product.updatedAt).toLocaleString("pt-BR", options)
+            : "-";
+          row.innerHTML = `
+                    <td>${product.codigo}</td>
+                    <td>${product.status}</td>
+                    <td>${createdAt}</td>
+                    <td>${updatedAt}</td>
+                `;
+          productBody.appendChild(row);
+        });
+      }
+
+      function printTable() {
+        // Copiar a tabela de produtos para uma nova tabela para impressão
+        const printableTable = document.createElement("table");
+        printableTable.innerHTML =
+          document.getElementById("productTable").innerHTML;
+
+        // Remover a seção de busca da tabela impressa
+        const searchSection = printableTable.querySelector("#searchSection");
+        if (searchSection) {
+          searchSection.remove();
+        }
+
+        // Remover o botão de impressão da tabela impressa
+        const printButton = printableTable.querySelector("button");
+        if (printButton) {
+          printButton.remove();
+        }
+
+        // Estilizar a tabela de impressão
+        printableTable.style.borderCollapse = "collapse";
+        printableTable.style.width = "100%";
+        printableTable.style.border = "1px solid #ddd";
+
+        // Estilizar as células da tabela de impressão
+        const cells = printableTable.querySelectorAll("td, th");
+        cells.forEach((cell) => {
+          cell.style.border = "1px solid #ddd";
+          cell.style.padding = "8px";
+          cell.style.textAlign = "left";
+        });
+
+        // Abrir uma nova janela e imprimir o conteúdo
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(
+          "<html><head><title>Relatório de produtos - Impressão</title>"
+        );
+        printWindow.document.write("<style>");
+        printWindow.document.write("body { font-family: Arial, sans-serif; }");
+        printWindow.document.write("</style>");
+        printWindow.document.write("</head><body>");
+        printWindow.document.write(
+          "<h1>Relatório diário de produtos </h1>"
+        );
+        printWindow.document.body.appendChild(printableTable);
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+
+        // Adicionar um event listener para imprimir e fechar a janela quando a página estiver carregada
+        printWindow.onload = function () {
+          printWindow.print();
+          printWindow.close();
+        };
+      }
+    </script>
+  </body>
+</html>
