@@ -11,7 +11,7 @@
     </style>
   </head>
 
-  <body>
+  <body onload="focusInput()">
 
     <section class="cabecalho">
       <article>
@@ -100,5 +100,11 @@
         </section>
       </div>
     </div>
+<script>
+      // Função para focar no campo de input quando a página carregar
+      function focusInput() {
+          document.getElementById("inputCod").focus();
+      }
+  </script>
   </body>
 </html>
