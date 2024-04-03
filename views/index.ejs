@@ -11,9 +11,11 @@
     </style>
   </head>
 
-  <body>
+  <body onload="focusInput()">
 
     <section class="cabecalho">
+      <img src="/images/logoBt.png" alt="logo">
+
       <article>
         <header class="titulo">
           <h1>Sistema de controle de produtos</h1>
@@ -100,5 +102,13 @@
         </section>
       </div>
     </div>
+
+    <script>
+      // Função para focar no campo de input quando a página carregar
+      function focusInput() {
+          document.getElementById("inputCod").focus();
+      }
+  </script>
+
   </body>
 </html>

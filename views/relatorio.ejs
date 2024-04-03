@@ -15,25 +15,36 @@
   </head>
   <body>
     <section class="cabecalho">
+      <img src="/images/logoBt.png" alt="logo">
+
       <article>
         <header class="titulo">
-          <h1>Sistema de controle de produtos - Gerar Relatórios</h1>
+          <h1>Sistema de controle de produtos - Gerar Relatório</h1>
         </header>
       </article>
     </section>
 
     <div class="main">
-      <a href="remove">Ir para a pagina de deletar</a>
       <a href="/">Ir para a página principal</a>
+      <a href="remove">Ir para a pagina de deletar</a>
 
       <h1>Gerar relatório - Entradas e Saídas</h1>
       <label for="date">Selecione uma data:</label>
       <input type="date" id="date" />
+
+      <label for="status">Selecione um status:</label>
+      <select id="status">
+        <option value="todos">Todos status</option>
+        <option value="DOCA SUJA">Doca Suja</option>
+        <option value="LAVADO">Lavado</option>
+        <option value="PRONTO">Pronto</option>
+        <option value="ARQUIVADO">Arquivado</option>
+        <!-- Adicione mais opções conforme necessário -->
+      </select>
+
       <button onclick="searchProducts()">Buscar</button>
 
       <button onclick="printTable()">Imprimir</button>
-
-      <br>
 
       <table id="productTable">
         <thead>
@@ -53,7 +64,17 @@
     <script>
       async function searchProducts() {
         const date = document.getElementById("date").value;
-        const response = await fetch(`/products?date=${date}`);
+        const status = document.getElementById("status").value;
+
+        // Verifica se a data foi selecionada
+        if (!date) {
+          alert("Por favor, selecione uma data.");
+          return;
+        }
+
+        let queryParams = `?date=${date}`;
+
+        const response = await fetch(`/products${queryParams}`);
         const products = await response.json();
 
         const productBody = document.getElementById("productBody");
@@ -69,21 +90,24 @@
         };
 
         products.forEach((product) => {
-          const row = document.createElement("tr");
-          const createdAt = new Date(product.createdAt).toLocaleString(
-            "pt-BR",
-            options
-          );
-          const updatedAt = product.updatedAt
-            ? new Date(product.updatedAt).toLocaleString("pt-BR", options)
-            : "-";
-          row.innerHTML = `
+          // Verifica se a opção "Todos" está selecionada
+          if (status === "todos" || product.status === status) {
+            const createdAt = new Date(product.createdAt).toLocaleString(
+              "pt-BR",
+              options
+            );
+            const updatedAt = product.updatedAt
+              ? new Date(product.updatedAt).toLocaleString("pt-BR", options)
+              : "-";
+            const row = document.createElement("tr");
+            row.innerHTML = `
                     <td>${product.codigo}</td>
                     <td>${product.status}</td>
                     <td>${createdAt}</td>
                     <td>${updatedAt}</td>
                 `;
-          productBody.appendChild(row);
+            productBody.appendChild(row);
+          }
         });
       }
 
@@ -127,9 +151,7 @@
         printWindow.document.write("body { font-family: Arial, sans-serif; }");
         printWindow.document.write("</style>");
         printWindow.document.write("</head><body>");
-        printWindow.document.write(
-          "<h1>Relatório diário de produtos </h1>"
-        );
+        printWindow.document.write("<h1>Relatório diário de produtos </h1>");
         printWindow.document.body.appendChild(printableTable);
         printWindow.document.write("</body></html>");
         printWindow.document.close();

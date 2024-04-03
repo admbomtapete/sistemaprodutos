@@ -61,6 +61,13 @@ async function findByDate(date) {
     }).toArray();
 }
 
+async function findByStatus(status) {
+    const db = await connect();
+    return db.collection("codprodutos").find({
+        status: status
+    }).toArray();
+}
+
 
 
 async function find() {
@@ -85,5 +92,6 @@ module.exports = {
     find,
     remove,
     update,
-    findByDate
+    findByDate, 
+    findByStatus
 };
