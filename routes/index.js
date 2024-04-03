@@ -10,10 +10,20 @@ router.get('/',async (req, res, next) => {
 });
 
 router.get("/products", async (req, res) => {
-  const { date } = req.query;
-  const products = await db.findByDate(date);
-  res.json(products);
+  const { date, status } = req.query;
+
+  const productsByDate = date ? await db.findByDate(date) : [];
+  const productsByStatus = status ? await db.findByStatus(status) : [];
+
+  // Usando um conjunto para armazenar os produtos únicos
+  const uniqueProducts = new Set([...productsByDate, ...productsByStatus]);
+
+  // Convertendo de volta para uma matriz
+  const combinedProducts = [...uniqueProducts];
+
+  res.json(combinedProducts);
 });
+
 
 router.get('/remove',async (req, res, next) => {
   const result = await db.find();
