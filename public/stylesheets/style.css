@@ -38,7 +38,8 @@ body {
 .cabecalho {
   background-color: black;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   margin: 0;
 }
 
@@ -50,6 +51,7 @@ body {
   font-weight: 700;
   font-style: normal;
   color: white;
+  margin-left: 8em;
 }
 
 .container {
@@ -157,4 +159,10 @@ th {
 td:hover,
 th:hover {
   background-color: #ddd;
+}
+
+img{
+  width: 400px;
+  margin-right: 4em;
+  margin-left: 10px;
 }
