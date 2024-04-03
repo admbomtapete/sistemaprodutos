@@ -1,7 +1,3 @@
-:root {
-  --fonte-padrao: "Lato", sans-serif;
-}
-
 .main {
   margin-left: 2em;
 }
@@ -13,24 +9,6 @@ h1 {
 body {
   background-color: #f2f2f2;
   margin: 0;
-}
-
-.cabecalho {
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 20px 0;
-}
-
-.titulo {
-  display: flex;
-  justify-content: center;
-  font-size: 2em;
-  font-family: var(--fonte-padrao);
-  font-weight: 700;
-  font-style: normal;
-  color: white;
 }
 
 .container {
