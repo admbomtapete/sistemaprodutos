@@ -12,9 +12,8 @@
   </head>
 
   <body onload="focusInput()">
-
     <section class="cabecalho">
-      <img src="/images/logoBt.png" alt="logo">
+      <img src="/images/logoBt.png" alt="logo" />
 
       <article>
         <header class="titulo">
@@ -23,19 +22,24 @@
       </article>
     </section>
 
-    
+    <a href="remove">Ir para a pagina de deletar</a>
+    <a href="relatorio">Gerar relatorio</a>
 
     <div class="container">
       <section class="inserir">
         <h2 id="tituloCod">Insira o Código do produto</h2>
-        <form action="save" method="POST" id="formCod">
+        <form action="save" method="POST" id="formCod" onsubmit="enviarFormulario()">
           <input
             type="text"
             id="inputCod"
             name="codigo"
             placeholder="Insira o código do produto"
           />
-          <input type="submit" value="Enviar" />
+          <input
+            type="submit"
+            id="submitBtn"
+            value="Enviar"
+          />
         </form>
       </section>
 
@@ -105,9 +109,29 @@
     <script>
       // Função para focar no campo de input quando a página carregar
       function focusInput() {
-          document.getElementById("inputCod").focus();
+        document.getElementById("inputCod").focus();
       }
-  </script>
 
+      // Função para enviar o formulário e desabilitar o botão de envio temporariamente
+      function enviarFormulario() {
+        const inputCod = document.getElementById("inputCod");
+        const codigoProduto = document.getElementById("inputCod").value.trim(); // Obtém o valor do input
+
+        // Desabilita o input
+        inputCod.readOnly = true;
+
+        // Define um temporizador para habilitar o envio após 3 segundos
+        setTimeout(function () {
+          // Habilita o botão de envio
+          inputCod.readOnly = false;
+
+          // Envie o formulário
+          document.getElementById("formCod").submit();
+        }, 3000); // 3000 milissegundos (3 segundos)
+
+        // Retorna false para impedir o envio do formulário neste momento
+        return false;
+      }
+    </script>
   </body>
 </html>
